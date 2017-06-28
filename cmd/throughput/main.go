@@ -19,7 +19,7 @@ type Benchmark interface {
 
 func main() {
 	var (
-		system      = flag.String("s", "", "[kafka, nats]")
+		system      = flag.String("s", "", "[kafka, nats, kinesis]")
 		size        = flag.Uint("sz", 200, "message size")
 		numMessages = flag.Uint("n", 50000, "number of messages")
 		url         = flag.String("url", "", "broker url")
@@ -35,6 +35,8 @@ func main() {
 		b = benchmark.NewKafkaBenchmark([]string{*url}, topic, *size)
 	case "nats":
 		b = benchmark.NewNATSBenchmark(*url, topic, *size)
+	case "kinesis":
+		b = benchmark.NewKinesisBenchmark(*url, topic, *size)
 	default:
 		fmt.Printf("Unknown system '%s'\n", *system)
 		os.Exit(1)
